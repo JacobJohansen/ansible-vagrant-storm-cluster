@@ -26,8 +26,8 @@
     line='export PATH={{ansible_env.HOME}}/nimbus/bin:$PATH'
 
 
-#- name: create local storage dir for nimbus
-#  file: path={{ansible_env.HOME}}/storm_local state=directory mode=755 owner={{ansible_ssh_user}}
+- name: create local storage dir for nimbus
+  file: path={{ansible_env.HOME}}/storm_local state=directory mode=755 owner={{ansible_ssh_user}}
 
 - name: setup storm config yml file
   template: src=storm.yml mode=644 dest={{ansible_env.HOME}}/nimbus/conf/storm.yaml
