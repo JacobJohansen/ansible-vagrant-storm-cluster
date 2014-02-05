@@ -1,0 +1,3 @@
+---
+- name: install wget
+  shell: sudo yum -y install wget

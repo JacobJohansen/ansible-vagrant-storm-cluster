@@ -1,0 +1,43 @@
+- name: get Maven 
+  get_url: >
+    url={{maven_artifact_url}}
+    dest={{ansible_env.HOME}}
+    use_proxy=no
+    mode=755
+    owner={{ansible_ssh_user}}
+
+- name: install Maven
+  shell: tar -xf {{maven_artifact}}  creates={{maven_install_path}}
+
+- name: create Maven .m2 directory
+  file: path={{ansible_env.HOME}}/.m2 state=directory mode=755 owner={{ansible_ssh_user}}
+
+- name: add Maven to the path 
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    state=present
+    regexp='export PATH={{maven_install_path}}.*'
+    line='export PATH={{maven_install_path}}/bin:$PATH'
+
+- name: Set Maven heap size 
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    state=present
+    regexp="export MAVEN_OPTS=.*"
+    line='export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=2048m"'
+
+- name: install leiningen
+  get_url: >
+    url={{leiningen_artifact_url}} 
+    dest={{ansible_env.HOME}} 
+    mode=755
+    owner={{ansible_ssh_user}}
+
+- name: add Lein to the path 
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    state=present
+    regexp='export PATH={{ansible_env.HOME}}/lein'
+    line='export PATH={{ansible_env.HOME}}/lein:$PATH'
+
+- include: utilities.yml

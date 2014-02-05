@@ -1,0 +1,13 @@
+---
+- hosts: supervisor_servers
+  remote_user: vagrant
+  sudo: False
+
+  roles:
+    - common
+    - storm
+
+  post_tasks:
+  - name: start supervisor server
+    shell: "storm supervisor &"
+

@@ -1,0 +1,8 @@
+storm_version: "0.8.1"
+storm_artifact_url: "https://github.com/downloads/nathanmarz/storm/storm-{{storm_version}}.zip"
+zeromq_version: "4.0.3"
+zeromq_artifact: "zeromq-{{zeromq_version}}.tar.gz"
+zeromq_artifact_url: "http://download.zeromq.org/{{zeromq_artifact}}"
+jzmq_version: "storm"
+jzmq_git_url: "https://github.com/nathanmarz/jzmq.git"
+zookeeper_ip_addr: "192.168.33.11"

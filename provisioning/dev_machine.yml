@@ -1,0 +1,8 @@
+---
+- hosts: dev_machine
+  remote_user: vagrant
+  sudo: False
+
+  roles:
+      - common
+      - dev_box

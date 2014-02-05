@@ -1,0 +1,28 @@
+execute pathogen#infect()
+syntax on
+set cursorline " highlight current line
+set incsearch " BUT do highlight as you type you 
+set laststatus=2 " always show the status line
+set linespace=0 " don't insert any extra pixel lines 
+set listchars=tab:>-,trail:- " show tabs and trailing 
+set number " turn on line numbers
+set numberwidth=5 " We are good up to 99999 lines
+set report=0 " tell us when anything is changed via :...
+set ruler " Always show current positions along the bottom
+set scrolloff=10 " Keep 10 lines (top/bottom) for scope
+set showcmd " show the command being typed
+set showmatch " show matching brackets
+set sidescrolloff=10 " Keep 5 lines at the size
+set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]   
+set tw=79 "wrap after 79 characters
+set expandtab " no real tabs please!
+set formatoptions=rq " Automatically insert comment leader on return, 
+set ai                      " and let gq format comments
+set ignorecase " case insensitive by default
+set infercase " case inferred by default
+set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
+set smartcase " if there are caps, go case-sensitive
+set shiftwidth=4 " auto-indent amount when using cindent, 
+set softtabstop=4 " when hitting tab or backspace, how many spaces 
+set tabstop=4 " real tabs should be 8, and they will show with 
+filetype plugin indent on 

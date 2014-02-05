@@ -1,0 +1,30 @@
+---
+- name: install Vim
+  shell: sudo yum -y install vim
+
+- name: setup .vimrc 
+  copy: src=vimrc mode=644 dest={{ansible_env.HOME}}/.vimrc owner={{ansible_ssh_user}}
+
+- name: create .vim directory 
+  file: path={{ansible_env.HOME}}/.vim state=directory mode=755 owner={{ansible_ssh_user}}
+
+- name: create .vim/autoload directory 
+  file: path={{ansible_env.HOME}}/.vim/autoload state=directory mode=755 owner={{ansible_ssh_user}}
+
+- name: create .vim/bundle directory 
+  file: path={{ansible_env.HOME}}/.vim/bundle state=directory mode=755 owner={{ansible_ssh_user}}
+
+- name: install pathogen.vim
+  get_url: url={{pathogen_artifact_url}} dest={{ansible_env.HOME}}/.vim/autoload/ mode=644 owner={{ansible_ssh_user}}
+
+- name: install NERDTree
+  git: repo={{nerdtree_git_url}} dest={{ansible_env.HOME}}/.vim/bundle/nerdtree
+
+- name: install sourround plugin for vim
+  git: repo={{sorround_git_url}} dest={{ansible_env.HOME}}/.vim/bundle/sorround
+
+- name: install ctrlp plugin
+  git: repo={{ctrlp_git_url}} dest={{ansible_env.HOME}}/.vim/bundle/ctrlp
+
+- name: install solraized colors
+  git: repo={{solarized_vim_git_url}} dest={{ansible_env.HOME}}/.vim/bundle/solarized_colors

@@ -1,0 +1,12 @@
+---
+- hosts: zookeeper_servers
+  remote_user: vagrant
+  sudo: False
+
+  roles:
+    - common
+    - zookeeper
+
+  post_tasks:
+  - name: start zookeeper server
+    shell: "./zookeeper/bin/zkServer.sh start"

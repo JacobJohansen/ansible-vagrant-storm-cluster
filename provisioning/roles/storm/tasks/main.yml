@@ -1,0 +1,35 @@
+---
+- name: get storm artifact
+  get_url: >
+    url={{storm_artifact_url}}
+    dest={{ansible_env.HOME}}
+    use_proxy=no
+    mode=644
+    owner={{ansible_ssh_user}}
+
+- name: install storm 
+  shell: unzip storm-0.8.1.zip creates={{ansible_env.HOME}}/storm-{{storm_version}}
+
+- name: create a link to the storm install dir
+  file: >
+    src={{ansible_env.HOME}}/storm-{{storm_version}} 
+    dest={{ansible_env.HOME}}/{{storm_name}} 
+    state=link
+    owner={{ansible_ssh_user}}
+    mode=755
+
+- name: add storm executable on the path
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    state=present
+    regexp='export PATH={{ansible_env.HOME}}/nimbus*'
+    line='export PATH={{ansible_env.HOME}}/nimbus/bin:$PATH'
+
+
+#- name: create local storage dir for nimbus
+#  file: path={{ansible_env.HOME}}/storm_local state=directory mode=755 owner={{ansible_ssh_user}}
+
+- name: setup storm config yml file
+  template: src=storm.yml mode=644 dest={{ansible_env.HOME}}/nimbus/conf/storm.yaml
+
+- include: zeromq.yml

@@ -1,0 +1,21 @@
+---
+- name: install JDK
+  shell: sudo yum -y install {{jdk_artifact}}
+
+- name: add {{jdk_install_path}}/bin to the path 
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    state=present
+    create=yes
+    regexp='export PATH={{jdk_install_path}}/bin.*'
+    line='export PATH={{jdk_install_path}}/bin:$PATH'
+
+
+- name: set JAVA_HOME environment variable
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    regexp='export JAVA_HOME=.*'
+    line='export JAVA_HOME={{jdk_install_path}}'
+    state=present
+
+- include: utilities.yml

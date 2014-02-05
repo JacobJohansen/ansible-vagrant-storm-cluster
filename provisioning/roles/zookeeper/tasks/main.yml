@@ -1,0 +1,32 @@
+---
+- name: set java heap size to a max of 3GB
+  lineinfile: >
+    dest={{ansible_env.HOME}}/.bashrc
+    regexp='export JAVA_OPTS=.*'
+    line='export JAVA_OPTS="-Xms1g -Xmx3g"'
+    state=present
+
+- name: get zookeeper artifact
+  get_url: >
+     url={{zookeeper_artifact_url}}
+     dest={{ansible_env.HOME}}
+     mode=644
+     owner={{ansible_ssh_user}}
+
+- name: extract zookeeper tar file
+  shell: tar -xf zookeeper-{{zookeeper_version}}.tar.gz
+
+- name: create symbolic link to install location
+  file: >
+     src={{ansible_env.HOME}}/zookeeper-{{zookeeper_version}}  
+     dest={{ansible_env.HOME}}/zookeeper 
+     state=link
+
+- name: upload configuration file
+  template: src=zoo.cfg dest={{ansible_env.HOME}}/zookeeper/conf mode=644
+
+- name: create zookeeper data directory
+  file: state=directory path={{zookeeper_data_dir}} mode=755 owner={{ansible_ssh_user}}
+
+- name: upload myid file
+  template: src=myid dest={{zookeeper_data_dir}}/myid mode=644
