@@ -6,8 +6,11 @@
   roles:
     - common
     - storm
+    - supervisord
 
   post_tasks:
-  - name: start supervisor server
-    shell: "storm supervisor &"
+    - name: start supervisor daemon
+      shell: supervisord creates=/tmp/supervisor.sock
+    - name: start supervisor server
+      supervisorctl: name=supervisor state=present
 

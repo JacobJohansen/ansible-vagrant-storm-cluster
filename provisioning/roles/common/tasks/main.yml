@@ -18,4 +18,7 @@
     line='export JAVA_HOME={{jdk_install_path}}'
     state=present
 
+- name: create directory to store downloaded packages
+  file: path={{ansible_env.HOME}}/packages state=directory owner={{ansible_ssh_user}} mode=755
+
 - include: utilities.yml

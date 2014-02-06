@@ -2,17 +2,17 @@
 - name: get storm artifact
   get_url: >
     url={{storm_artifact_url}}
-    dest={{ansible_env.HOME}}
+    dest={{packages_root}}
     use_proxy=no
     mode=644
     owner={{ansible_ssh_user}}
 
 - name: install storm 
-  shell: unzip storm-0.8.1.zip creates={{ansible_env.HOME}}/storm-{{storm_version}}
+  shell: unzip {{packages_root}}/storm-0.8.1.zip creates={{packages_root}}/storm-{{storm_version}}
 
 - name: create a link to the storm install dir
   file: >
-    src={{ansible_env.HOME}}/storm-{{storm_version}} 
+    src={{packages_root}}/storm-{{storm_version}} 
     dest={{ansible_env.HOME}}/{{storm_name}} 
     state=link
     owner={{ansible_ssh_user}}

@@ -1,6 +1,6 @@
 maven_artifact_url: "http://mirror.nexcess.net/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz"
-maven_artifact: "{{ansible_env.HOME}}/apache-maven-3.1.1-bin.tar.gz"
-maven_install_path: "{{ansible_env.HOME}}/apache-maven-3.1.1"
+maven_artifact: "{{packages_root}}/apache-maven-3.1.1-bin.tar.gz"
+maven_install_path: "{{packages_root}}/apache-maven-3.1.1"
 leiningen_artifact_url: "https://raw.github.com/technomancy/leiningen/stable/bin/lein"
 pathogen_artifact_url: "https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim" 
 nerdtree_git_url: "https://github.com/scrooloose/nerdtree.git"

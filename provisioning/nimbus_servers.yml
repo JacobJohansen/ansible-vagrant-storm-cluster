@@ -6,10 +6,10 @@
   roles:
     - common
     - storm
+    - supervisord
 
   post_tasks:
-  - name: start nimbus server
-    shell: "storm nimbus &"
-
-  - name: start UI  server
-    shell: "storm ui &"
+    - name: start supervisor daemon
+      shell: supervisord creates=/tmp/supervisor.sock
+    - name: start nimbus server
+      supervisorctl: name=nimbus state=present

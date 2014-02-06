@@ -1,0 +1,2 @@
+packages_root: "{{ansible_env.HOME}}/packages"
+

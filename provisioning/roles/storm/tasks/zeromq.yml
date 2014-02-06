@@ -2,20 +2,20 @@
 - name: download the zero mq artifact
   get_url: >
     url={{zeromq_artifact_url}}
-    dest={{ansible_env.HOME}}
+    dest={{packages_root}}
     use_proxy=no
     mode=644
     owner={{ansible_ssh_user}}
 
 - name: unzip zero mq artifact
-  shell: tar -xf {{zeromq_artifact}} creates=~/zeromq-{{zeromq_version}}
+  shell: tar -xf {{packages_root}}/{{zeromq_artifact}} creates={{packages_root}}/zeromq-{{zeromq_version}}
 
 - name: install zero mq
-  shell: ./configure --prefix={{ansible_env.HOME}}/zeromq; make; make install chdir=~/zeromq-{{zeromq_version}} creates=~/zeromq
+  shell: ./configure --prefix={{packages_root}}/lib/zeromq; make; make install chdir={{packages_root}}/zeromq-{{zeromq_version}} creates={{packages_root}}/lib/zeromq
 
 - name: download the java zero mq binding artifact
-  git: repo={{jzmq_git_url}} dest={{ansible_env.HOME}}/jzmq-{{jzmq_version}}
+  git: repo={{jzmq_git_url}} dest={{packages_root}}/jzmq-{{jzmq_version}}
 
 - name: install jzmq 
-  shell: ./autogen.sh; ./configure --prefix={{ansible_env.HOME}}/jzmq --with-zeromq={{ansible_env.HOME}}/zeromq; make; make install chdir=~/jzmq-{{jzmq_version}} creates=~/jzmq
+  shell: ./autogen.sh; ./configure --prefix={{packages_root}}/lib/jzmq --with-zeromq={{packages_root}}/lib/zeromq; make; make install chdir={{packages_root}}/jzmq-{{jzmq_version}} creates={{packages_root}}/lib/jzmq
 

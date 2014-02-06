@@ -6,7 +6,10 @@
   roles:
     - common
     - zookeeper
+    - supervisord
 
   post_tasks:
-  - name: start zookeeper server
-    shell: "./zookeeper/bin/zkServer.sh start"
+    - name: start supervisor daemon
+      shell: supervisord creates=/tmp/supervisor.sock
+    - name: start zookeeper server
+      supervisorctl: name=zookeeper state=present

@@ -9,16 +9,16 @@
 - name: get zookeeper artifact
   get_url: >
      url={{zookeeper_artifact_url}}
-     dest={{ansible_env.HOME}}
+     dest={{packages_root}}
      mode=644
      owner={{ansible_ssh_user}}
 
 - name: extract zookeeper tar file
-  shell: tar -xf zookeeper-{{zookeeper_version}}.tar.gz
+  shell: tar -xf zookeeper-{{zookeeper_version}}.tar.gz chdir={{packages_root}} creates={{packages_root}}/zookeeper-{{zookeeper_version}}
 
 - name: create symbolic link to install location
   file: >
-     src={{ansible_env.HOME}}/zookeeper-{{zookeeper_version}}  
+     src={{packages_root}}/zookeeper-{{zookeeper_version}}  
      dest={{ansible_env.HOME}}/zookeeper 
      state=link
 
