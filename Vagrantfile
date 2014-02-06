@@ -26,27 +26,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        ansible.playbook = "provisioning/zookeeper_servers.yml"
     end
   end
-#  
-#
-#  config.vm.define "nimbus" do |nimbus|
-#    nimbus.vm.box = "centOS65"
-#    nimbus.vm.network :private_network, ip: "192.168.33.10"
-#    nimbus.vm.provision "ansible" do |ansible|
-#        ansible.host_key_checking = false
-#        ansible.inventory_path = "provisioning/dev"
-#        ansible.playbook = "provisioning/nimbus_servers.yml"
-#    end
-#  end
-#
-#  config.vm.define "supervisor01" do |supervisor01|
-#    supervisor01.vm.box = "centOS65"
-#    supervisor01.vm.network :private_network, ip: "192.168.33.12"
-#    supervisor01.vm.provision "ansible" do |ansible|
-#       ansible.host_key_checking = false
-#       ansible.inventory_path = "provisioning/dev"
-#       ansible.playbook = "provisioning/supervisor_servers.yml"
-#    end
-#  end
+  
+
+  config.vm.define "nimbus" do |nimbus|
+    nimbus.vm.box = "centOS65"
+    nimbus.vm.network :private_network, ip: "192.168.33.10"
+    nimbus.vm.provision "ansible" do |ansible|
+        ansible.host_key_checking = false
+        ansible.inventory_path = "provisioning/dev"
+        ansible.playbook = "provisioning/nimbus_servers.yml"
+    end
+  end
+
+  config.vm.define "supervisor01" do |supervisor01|
+    supervisor01.vm.box = "centOS65"
+    supervisor01.vm.network :private_network, ip: "192.168.33.12"
+    supervisor01.vm.provision "ansible" do |ansible|
+       ansible.host_key_checking = false
+       ansible.inventory_path = "provisioning/dev"
+       ansible.playbook = "provisioning/supervisor_servers.yml"
+    end
+  end
  
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
