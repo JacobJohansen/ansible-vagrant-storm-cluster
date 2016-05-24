@@ -1,6 +1,10 @@
 ---
 - name: Creates directory
-  file: path={{ansible_env.HOME}}/packages state=directory    
+  file: path={{ansible_env.HOME}}/packages state=directory
+
+- name: Creates storm storage directory
+  become: yes
+  file: path=/var/storm-local state=directory mode=777 
 
 - apt: name=unzip
   become: yes
