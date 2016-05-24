@@ -1,15 +1,14 @@
 ---
 - hosts: nimbus_servers
   remote_user: vagrant
-  sudo: False
 
   roles:
+    - { role: ansiblebit.oracle-java,
+        oracle_java_set_as_default: yes}
     - common
     - storm
     - supervisord
-
   post_tasks:
-    - name: start supervisor daemon
-      shell: supervisord creates=/tmp/supervisor.sock
     - name: start nimbus server
       supervisorctl: name=nimbus state=present
+      become: yes

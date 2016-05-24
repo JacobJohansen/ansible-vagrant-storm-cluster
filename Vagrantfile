@@ -3,7 +3,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
+  #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
   
 #  config.vm.define "dev_box" do |dev|
 #    dev.vm.box = "centOS65"
@@ -18,10 +18,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.define "zookeeper" do |zookeeper|
-    zookeeper.vm.box = "centOS65"
+    zookeeper.vm.box = "ubuntu/trusty64"
     zookeeper.vm.network :private_network, ip: "192.168.33.11"
     zookeeper.vm.provision "ansible" do |ansible|
        ansible.host_key_checking = false
+       ansible.limit = "zookeeper_servers"
        ansible.inventory_path = "provisioning/dev"
        ansible.playbook = "provisioning/zookeeper_servers.yml"
     end
@@ -29,20 +30,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
 
   config.vm.define "nimbus" do |nimbus|
-    nimbus.vm.box = "centOS65"
+    nimbus.vm.box = "ubuntu/trusty64"
     nimbus.vm.network :private_network, ip: "192.168.33.10"
     nimbus.vm.provision "ansible" do |ansible|
         ansible.host_key_checking = false
+        ansible.limit = "nimbus_servers"
         ansible.inventory_path = "provisioning/dev"
         ansible.playbook = "provisioning/nimbus_servers.yml"
     end
   end
 
   config.vm.define "supervisor01" do |supervisor01|
-    supervisor01.vm.box = "centOS65"
+    supervisor01.vm.box = "ubuntu/trusty64"
     supervisor01.vm.network :private_network, ip: "192.168.33.12"
     supervisor01.vm.provision "ansible" do |ansible|
        ansible.host_key_checking = false
+       ansible.limit = "supervisor_servers"
        ansible.inventory_path = "provisioning/dev"
        ansible.playbook = "provisioning/supervisor_servers.yml"
     end

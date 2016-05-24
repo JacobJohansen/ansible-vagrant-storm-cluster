@@ -1,16 +1,15 @@
 ---
 - hosts: supervisor_servers
   remote_user: vagrant
-  sudo: False
 
   roles:
-    - common
+    - { role: ansiblebit.oracle-java,
+        oracle_java_set_as_default: yes,
+        oracle_java_versio: 8 }
     - storm
     - supervisord
 
   post_tasks:
-    - name: start supervisor daemon
-      shell: supervisord creates=/tmp/supervisor.sock
     - name: start supervisor server
       supervisorctl: name=supervisor state=present
-
+      become: yes

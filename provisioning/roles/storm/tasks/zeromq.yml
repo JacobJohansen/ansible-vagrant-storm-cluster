@@ -3,7 +3,6 @@
   get_url: >
     url={{zeromq_artifact_url}}
     dest={{packages_root}}
-    use_proxy=no
     mode=644
     owner={{ansible_ssh_user}}
 

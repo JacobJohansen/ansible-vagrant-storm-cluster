@@ -1,24 +1,48 @@
 ---
-- name: install JDK
-  shell: sudo yum -y install {{jdk_artifact}}
+- name: Update Apt Cache
+  become: yes
+  apt: update_cache=yes
 
-- name: add {{jdk_install_path}}/bin to the path 
-  lineinfile: >
-    dest={{ansible_env.HOME}}/.bashrc
-    state=present
-    create=yes
-    regexp='export PATH={{jdk_install_path}}/bin.*'
-    line='export PATH={{jdk_install_path}}/bin:$PATH'
+- name: Install curl
+  become: yes
+  apt: name=curl state=latest
 
+- name: Install wget
+  become: yes
+  apt: name=wget state=latest  
 
-- name: set JAVA_HOME environment variable
-  lineinfile: >
-    dest={{ansible_env.HOME}}/.bashrc
-    regexp='export JAVA_HOME=.*'
-    line='export JAVA_HOME={{jdk_install_path}}'
-    state=present
+- name: Set a fixed DNS cache time (recommended by Amazon for AWS)
+  become: yes
+  lineinfile: dest=/usr/lib/jvm/java-8-oracle/jre/lib/security/java.security insertafter=EOF line=networkaddress.cache.ttl=60 state=present
 
-- name: create directory to store downloaded packages
-  file: path={{ansible_env.HOME}}/packages state=directory owner={{ansible_ssh_user}} mode=755
+- name: Install Java JNA
+  become: yes
+  apt: name=libjna-java state=latest
 
-- include: utilities.yml
+- name: Install maven
+  become: yes
+  apt: name=maven state=latest
+
+- name: Download local policy zip
+  become: yes
+  shell: 'wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip chdir=/tmp'
+
+- name: Unzip plugin
+  become: yes
+  unarchive: src=/tmp/{{ zipfile }} dest=/tmp copy=no
+
+- name: Remove zip file
+  become: yes
+  file: path=/tmp/{{ zipfile }} state=absent
+
+- name: Copy local_policy.jar
+  become: yes
+  shell: 'cp /tmp/{{ unzip_folder }}/{{ local_policy_jar }} /usr/lib/jvm/java-8-oracle/jre/lib/security/local_policy.jar'
+
+- name: Copy US_export_policy.jar
+  become: yes
+  shell: 'cp /tmp/{{ unzip_folder }}/{{ us_export_policy_jar }} /usr/lib/jvm/java-8-oracle/jre/lib/security/US_export_policy.jar'
+
+- name: Remove unzip folder
+  become: yes
+  file: path=/tmp/{{ unzip_folder }} state=absent  

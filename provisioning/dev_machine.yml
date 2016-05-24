@@ -4,5 +4,7 @@
   sudo: False
 
   roles:
-      - common
+      - { role: ansiblebit.oracle-java,
+          oracle_java_set_as_default: yes,
+          oracle_java_versio: 8 }
       - dev_box

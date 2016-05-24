@@ -1,5 +1,5 @@
-storm_version: "0.8.1"
-storm_artifact_url: "https://github.com/downloads/nathanmarz/storm/storm-{{storm_version}}.zip"
+storm_version: "1.0.1"
+storm_artifact_url: "http://apache.cs.utah.edu/storm/apache-storm-1.0.1/apache-storm-1.0.1.zip"
 zeromq_version: "4.0.3"
 zeromq_artifact: "zeromq-{{zeromq_version}}.tar.gz"
 zeromq_artifact_url: "http://download.zeromq.org/{{zeromq_artifact}}"

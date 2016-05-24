@@ -5,10 +5,7 @@
 192.168.33.12 storm_name=supervisor supervisor_program=supervisor supervisor_command="storm supervisor"
 
 [zookeeper_servers]
-192.168.33.11 myid=1 supervisor_command="./zookeeper/bin/zkServer.sh start" supervisor_program="zookeeper"
-
-[dev_machine]
-192.168.33.13
+192.168.33.11 myid=1 supervisor_command="service zookeeper start" supervisor_program="zookeeper"
 
 [all:vars]
-ansible_ssh_private_key_file="/Users/ThoughtWorks/.vagrant.d/insecure_private_key"
+ansible_ssh_private_key_file="/Users/Jacob.Johansen/.vagrant.d/insecure_private_key"

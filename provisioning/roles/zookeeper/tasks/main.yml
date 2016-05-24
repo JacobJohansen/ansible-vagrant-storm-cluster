@@ -6,27 +6,19 @@
     line='export JAVA_OPTS="-Xms1g -Xmx3g"'
     state=present
 
-- name: get zookeeper artifact
-  get_url: >
-     url={{zookeeper_artifact_url}}
-     dest={{packages_root}}
-     mode=644
-     owner={{ansible_ssh_user}}
+- name: Creates directory
+  file: path={{ansible_env.HOME}}/packages state=directory    
 
-- name: extract zookeeper tar file
-  shell: tar -xf zookeeper-{{zookeeper_version}}.tar.gz chdir={{packages_root}} creates={{packages_root}}/zookeeper-{{zookeeper_version}}
-
-- name: create symbolic link to install location
-  file: >
-     src={{packages_root}}/zookeeper-{{zookeeper_version}}  
-     dest={{ansible_env.HOME}}/zookeeper 
-     state=link
+- apt: name=zookeeperd
+  become: yes
 
 - name: upload configuration file
-  template: src=zoo.cfg dest={{ansible_env.HOME}}/zookeeper/conf mode=644
+  template: src=zoo.cfg dest=/etc/zookeeper/conf/zoo.cfg mode=644
+  become: yes
 
-- name: create zookeeper data directory
-  file: state=directory path={{zookeeper_data_dir}} mode=755 owner={{ansible_ssh_user}}
+# - name: create zookeeper data directory
+  # file: state=directory path={{zookeeper_data_dir}} mode=755 owner={{ansible_ssh_user}}
 
 - name: upload myid file
-  template: src=myid dest={{zookeeper_data_dir}}/myid mode=644
+  template: src=myid dest=/etc/zookeeper/conf/myid mode=644
+  become: yes

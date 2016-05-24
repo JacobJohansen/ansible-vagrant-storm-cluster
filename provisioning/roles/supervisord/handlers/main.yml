@@ -1,3 +1,12 @@
 ---
-- name: start supervisor daemon
-  shell: supervisord
+- name: restart supervisord
+  become: yes
+  service: name=supervisor state=restarted
+
+- name: reread supervisord
+  become: yes
+  command: supervisorctl reread
+
+- name: update supervisord
+  become: yes
+  command: supervisorctl update

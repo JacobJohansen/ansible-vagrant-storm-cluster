@@ -1,2 +1,6 @@
 jdk_artifact: "java-1.7.0-openjdk-devel.x86_64"
 jdk_install_path: "/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.51.x86_64"
+zipfile: jce_policy-8.zip
+unzip_folder: UnlimitedJCEPolicyJDK8
+local_policy_jar: local_policy.jar
+us_export_policy_jar: US_export_policy.jar

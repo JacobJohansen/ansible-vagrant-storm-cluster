@@ -1,85 +1,16 @@
----
-- name: download the setup tool artifact
-  get_url: >
-    url={{setup_tool_artifact_url}}
-    dest={{packages_root}}
-    use_proxy=no
-    mode=644
-    owner={{ansible_ssh_user}}
+# Delegate further configuration to subtasks
+# placed in this same directory.
 
-- name: download the meld artifact
-  get_url: >
-    url={{meld_artifact_url}}
-    dest={{packages_root}}
-    use_proxy=no
-    mode=644
-    owner={{ansible_ssh_user}}
+- include: install.yml
+- include: configure.yml
 
-- name: download the supervisord artifact
-  get_url: >
-    url={{supervisor_artifact_url}}
-    dest={{packages_root}}
-    use_proxy=no
-    mode=644
-    owner={{ansible_ssh_user}}
-
-- name: download the elementtree artifact
-  get_url: >
-    url={{elementtree_artifact_url}}
-    dest={{packages_root}}
-    use_proxy=no
-    mode=644
-    owner={{ansible_ssh_user}}
-
-- name: unzip meld artifact
-  shell: >
-     tar -xf meld{{meld_version}}.tar.gz 
-     chdir={{packages_root}} 
-     creates={{packages_root}}/meld{{meld_version}}
-
-- name: unzip supervisor artifact
-  shell: >
-    tar -xf supervisor-{{supervisor_version}}.tar.gz 
-    chdir={{packages_root}}
-    creates={{packages_root}}/supervisor-{{supervisor_version}}
-
-- name: unzip elementtree artifact
-  shell: >
-     tar -xf elementtree-{{elementtree_version}}.tar.gz 
-     chdir={{packages_root}} 
-     creates={{packages_root}}/elementtree-{{elementtree_version}}
-
-- name: install setup tools
-  shell: > 
-     python ez_setup.py --user 
-     creates=~/.local/bin/easy_install 
-     chdir={{packages_root}}
-
-- name: install meld
-  shell: >
-     python setup.py install --user 
-     chdir={{packages_root}}/meld{{meld_version}} 
-     creates=~/.local/lib/python2.6/site-packages/meld3
-
-- name: install elementtree
-  shell: >
-     python setup.py install --user 
-     chdir={{packages_root}}/elementtree-{{elementtree_version}} 
-     creates=~/.local/lib/python2.6/site-packages/elementtree
-
-- name: install supervisor
-  shell: >
-     python setup.py install --user 
-     chdir={{packages_root}}/supervisor-{{supervisor_version}} 
-     creates=~/.local/bin/supervisord
-
-- name: add supervisord executable on the path
-  lineinfile: >
-    dest={{ansible_env.HOME}}/.bashrc
-    state=present
-    regexp='export PATH={{ansible_env.HOME}}/nimbus*'
-    line='export PATH={{ansible_env.HOME}}/.local/bin:$PATH'
-
-- name: setup supervisor config  file
-  template: src=supervisord.conf mode=644 dest={{ansible_env.HOME}}/supervisord.conf force=no
-  notify: start supervisor daemon
+- name: Ensure supervisord is running
+  become: yes
+  service:
+    name: "{{supervisord_service_name}}"
+    state: running
+    enabled: yes
+  tags:
+    - init
+    - supervisor
+    - supervisord

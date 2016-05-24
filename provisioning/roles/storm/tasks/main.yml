@@ -1,19 +1,28 @@
 ---
+- name: Creates directory
+  file: path={{ansible_env.HOME}}/packages state=directory    
+
+- apt: name=unzip
+  become: yes
+# - name: Creates storm directory
+#   file: path={{ansible_env.HOME}}/packages/apache-storm-{{storm_version}}  state=directory    
+
+- stat: path={{packages_root}}/apache-storm-1.0.1.zip
+  register: stormZip
+
 - name: get storm artifact
-  get_url: >
-    url={{storm_artifact_url}}
-    dest={{packages_root}}
-    use_proxy=no
-    mode=644
-    owner={{ansible_ssh_user}}
+  get_url: url={{storm_artifact_url}} dest={{packages_root}} mode=644
+  when: stormZip.stat.exists == False
 
 - name: install storm 
-  shell: unzip {{packages_root}}/storm-0.8.1.zip creates={{packages_root}}/storm-{{storm_version}}
+  become: yes
+  shell: unzip {{packages_root}}/apache-storm-1.0.1.zip -d /usr/local/lib
 
 - name: create a link to the storm install dir
+  become: yes
   file: >
-    src={{packages_root}}/storm-{{storm_version}} 
-    dest={{ansible_env.HOME}}/{{storm_name}} 
+    src=/usr/local/lib/apache-storm-{{storm_version}}/bin/storm
+    dest=/usr/local/bin/storm 
     state=link
     owner={{ansible_ssh_user}}
     mode=755
@@ -22,14 +31,15 @@
   lineinfile: >
     dest={{ansible_env.HOME}}/.bashrc
     state=present
-    regexp='export PATH={{ansible_env.HOME}}/nimbus*'
-    line='export PATH={{ansible_env.HOME}}/nimbus/bin:$PATH'
+    regexp='export PATH={{ansible_env.HOME}}/{{storm_name}}*'
+    line='export PATH={{ansible_env.HOME}}/{{storm_name}}/bin:$PATH'
 
 
 - name: create local storage dir for nimbus
   file: path={{ansible_env.HOME}}/storm_local state=directory mode=755 owner={{ansible_ssh_user}}
 
 - name: setup storm config yml file
-  template: src=storm.yml mode=644 dest={{ansible_env.HOME}}/nimbus/conf/storm.yaml
+  become: yes
+  template: src=storm.yml mode=644 dest=/usr/local/lib/apache-storm-{{storm_version}}/conf/storm.yaml
 
-- include: zeromq.yml
+# - include: zeromq.yml

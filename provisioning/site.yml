@@ -1,5 +1,4 @@
 ---
-- include dev_machine.yml
 - include nimbus_servers.yml
 - include supervisor_servers.yml
 - include zookeeper_servers.yml
