@@ -16,8 +16,9 @@
   template: src=zoo.cfg dest=/etc/zookeeper/conf/zoo.cfg mode=644
   become: yes
 
-# - name: create zookeeper data directory
-  # file: state=directory path={{zookeeper_data_dir}} mode=755 owner={{ansible_ssh_user}}
+- name: create zookeeper data directory
+  file: state=directory path={{zookeeper_data_dir}} mode=777 owner={{ansible_ssh_user}}
+  become: yes
 
 - name: upload myid file
   template: src=myid dest=/etc/zookeeper/conf/myid mode=644
