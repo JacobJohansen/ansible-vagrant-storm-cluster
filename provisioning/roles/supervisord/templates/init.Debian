@@ -102,7 +102,7 @@ force_stop() {
 case "$1" in
   start)
     echo -n "Starting $DESC: "
-    start-stop-daemon --start --pidfile $PIDFILE \
+    start-stop-daemon --start -m --pidfile $PIDFILE \
         --startas $DAEMON -- $DAEMON_OPTS
     test -f $PIDFILE || sleep 1
         if running ; then
@@ -113,7 +113,8 @@ case "$1" in
     ;;
   stop)
     echo -n "Stopping $DESC: "
-    start-stop-daemon --stop --oknodo --pidfile $PIDFILE
+    ps axf | grep supervisord | grep -v grep | awk '{print "kill -9 " $1}' | sh
+    #start-stop-daemon --stop --oknodo --pidfile $PIDFILE
     echo "$NAME."
     ;;
   force-stop)
@@ -150,9 +151,11 @@ case "$1" in
     || exit 0
     ;;
   restart)
-    echo -n "Restarting $DESC: "
-    start-stop-daemon --stop --oknodo --pidfile $PIDFILE
-    [ -n "$DODTIME" ] && sleep $DODTIME
+    #echo -n "Restarting $DESC: "
+    #start-stop-daemon --stop --oknodo --pidfile $PIDFILE
+    #[ -n "$DODTIME" ] && sleep $DODTIME
+    #sleep 5
+    ps axf | grep supervisord | grep -v grep | awk '{print "kill -9 " $1}' | sh
     start-stop-daemon --start --pidfile $PIDFILE \
         --startas $DAEMON -- $DAEMON_OPTS
     echo "$NAME."

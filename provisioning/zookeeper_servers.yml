@@ -6,11 +6,3 @@
   roles:
     - { role: ansiblebit.oracle-java }
     - zookeeper
-    - supervisord
-
-  post_tasks:
-  #   - name: start supervisor daemon
-  #     shell: supervisord creates=/tmp/supervisor.sock
-    - name: start zookeeper server
-      supervisorctl: name=zookeeper state=present
-      become: yes

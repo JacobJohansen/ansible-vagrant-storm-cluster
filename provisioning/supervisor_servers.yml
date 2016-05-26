@@ -9,6 +9,9 @@
     - common    
     - storm
     - supervisord
+    - {role: supervisor-config, 
+       supervisor_program: "supervisor",
+       supervisor_command: "storm supervisor"}
 
   post_tasks:
     - name: start supervisor server

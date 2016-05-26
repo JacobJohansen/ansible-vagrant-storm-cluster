@@ -1,11 +1,11 @@
 [nimbus_servers]
-192.168.33.10 storm_name=nimbus supervisor_program=nimbus supervisor_command="storm nimbus"
+192.168.33.10 storm_name=nimbus
 
 [supervisor_servers]
-192.168.33.12 storm_name=supervisor supervisor_program=supervisor supervisor_command="storm supervisor"
+192.168.33.12 storm_name=supervisor
 
 [zookeeper_servers]
-192.168.33.11 myid=1 supervisor_command="service zookeeper start" supervisor_program="zookeeper"
+192.168.33.11 myid=1
 
 [all:vars]
 ansible_ssh_private_key_file="/Users/Jacob.Johansen/.vagrant.d/insecure_private_key"
