@@ -46,3 +46,13 @@
 - name: Remove unzip folder
   become: yes
   file: path=/tmp/{{ unzip_folder }} state=absent  
+
+- name: Build host file 
+  become: yes
+  lineinfile:   dest=/etc/hosts 
+                regexp='.*{{ item }}$'
+                line="{{ item.ip }} {{item.name}}"
+                state=present
+  with_items: 
+    - { name: 'nimbus', ip: '192.168.33.10' }
+    - { name: 'zookeeper', ip: '192.168.33.11' }

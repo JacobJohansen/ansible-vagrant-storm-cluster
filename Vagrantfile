@@ -28,6 +28,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
   
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4096
+    v.cpus = 1
+  end
 
   config.vm.define "nimbus" do |nimbus|
     nimbus.vm.box = "ubuntu/trusty64"

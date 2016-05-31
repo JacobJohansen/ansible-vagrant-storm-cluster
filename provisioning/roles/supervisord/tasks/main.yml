@@ -7,5 +7,10 @@
 - name: Ensure supervisord is running
   become: yes
   service:
-    name: "supervisor"
-    state: restarted
+    name: "{{supervisord_service_name}}"
+    state: running
+    enabled: yes
+  tags:
+    - init
+    - supervisor
+    - supervisord
