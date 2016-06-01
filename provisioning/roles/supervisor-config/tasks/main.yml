@@ -1,0 +1,17 @@
+---
+
+- name: upload config Supervisord
+  become: yes
+  template:
+    src: "supervisor-config.ini"
+    dest: "/etc/supervisor/conf.d/{{supervisor_program}}.ini"
+
+- name: Append to config
+  become: yes
+  shell: cat /etc/supervisor/conf.d/{{supervisor_program}}.ini | sudo tee -a /etc/supervisor/supervisord.conf
+
+- name: restart supervisord
+  become: yes
+  service:
+    name: "supervisor"
+    state: restarted
