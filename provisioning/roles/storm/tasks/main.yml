@@ -12,8 +12,9 @@
 
 - apt: name=unzip
   become: yes
+
 # - name: Creates storm directory
-#   file: path={{ansible_env.HOME}}/packages/apache-storm-{{storm_version}}  state=directory    
+  # file: path={{ansible_env.HOME}}/packages/apache-storm-{{storm_version}}  state=directory    
 
 - stat: path={{packages_root}}/apache-storm-1.0.1.zip
   register: stormZip
