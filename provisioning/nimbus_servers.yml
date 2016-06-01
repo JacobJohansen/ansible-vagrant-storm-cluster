@@ -1,6 +1,10 @@
 ---
 - hosts: nimbus_servers
   remote_user: vagrant
+  vars:
+    hosts_ips:
+      - { name: 'nimbus', ip: '127.0.0.1' }
+      - { name: 'zookeeper', ip: '192.168.33.11' }
 
   roles:
     - { role: ansiblebit.oracle-java,
@@ -10,10 +14,12 @@
     - supervisord
     - {role: supervisor-config, 
        supervisor_program: "stormUI",
-       supervisor_command: "storm ui"}
+       supervisor_command: "storm ui",
+       supervisor_user: "storm"}
     - {role: supervisor-config, 
        supervisor_program: "nimbus",
-       supervisor_command: "storm nimbus"}
+       supervisor_command: "storm nimbus",
+       supervisor_user: "storm"}
        
   post_tasks:
     - name: start nimbus server

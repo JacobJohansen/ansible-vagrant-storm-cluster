@@ -1,4 +1,8 @@
 ---
+- name: create storm user
+  user: name=storm shell=/bin/bash createhome=yes append=yes
+  become: yes
+
 - name: Creates directory
   file: path={{ansible_env.HOME}}/packages state=directory
 
@@ -16,11 +20,12 @@
 
 - name: get storm artifact
   get_url: url={{storm_artifact_url}} dest={{packages_root}} mode=644
-  when: stormZip.stat.exists == False
+  #when: stormZip.stat.exists == False
 
 - name: install storm 
   become: yes
   shell: unzip {{packages_root}}/apache-storm-1.0.1.zip -d /usr/local/lib
+  #when: stormZip.stat.exists == False
 
 - name: create a link to the storm install dir
   become: yes
@@ -30,6 +35,7 @@
     state=link
     owner={{ansible_ssh_user}}
     mode=755
+  #when: stormZip.stat.exists == False  
 
 - name: add storm executable on the path
   lineinfile: >
@@ -37,7 +43,7 @@
     state=present
     regexp='export PATH={{ansible_env.HOME}}/{{storm_name}}*'
     line='export PATH={{ansible_env.HOME}}/{{storm_name}}/bin:$PATH'
-
+  #when: stormZip.stat.exists == False  
 
 - name: create local storage dir for nimbus
   file: path={{ansible_env.HOME}}/storm_local state=directory mode=755 owner={{ansible_ssh_user}}
@@ -45,5 +51,13 @@
 - name: setup storm config yml file
   become: yes
   template: src=storm.yml mode=644 dest=/usr/local/lib/apache-storm-{{storm_version}}/conf/storm.yaml
+
+- name: Creates directory
+  file: path=/home/storm/.storm state=directory  
+  become: yes
+
+- name: setup storm config yml file
+  become: yes
+  template: src=storm.yml mode=644 dest=/home/storm/.storm/storm.yaml  
 
 # - include: zeromq.yml

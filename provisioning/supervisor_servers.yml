@@ -1,7 +1,11 @@
 ---
 - hosts: supervisor_servers
   remote_user: vagrant
-
+  vars:
+    hosts_ips:
+      - { name: 'nimbus', ip: '192.168.33.10' }
+      - { name: 'zookeeper', ip: '192.168.33.11' }
+  
   roles:
     - { role: ansiblebit.oracle-java,
         oracle_java_set_as_default: yes,
@@ -11,7 +15,8 @@
     - supervisord
     - {role: supervisor-config, 
        supervisor_program: "supervisor",
-       supervisor_command: "storm supervisor"}
+       supervisor_command: "storm supervisor",
+       supervisor_user: "storm" }
 
   post_tasks:
     - name: start supervisor server
