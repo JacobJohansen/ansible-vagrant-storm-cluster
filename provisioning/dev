@@ -2,7 +2,7 @@
 192.168.33.10 storm_name=nimbus dns_aliase=nimbus
 
 [supervisor_servers]
-192.168.33.12 storm_name=supervisor
+192.168.33.12 storm_name=supervisor storm_hostname=supervisor01
 
 [zookeeper_servers]
 192.168.33.11 myid=1 dns_aliase=zookeeper

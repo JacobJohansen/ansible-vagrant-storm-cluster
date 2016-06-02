@@ -12,8 +12,7 @@
         oracle_java_versio: 8 }
     - common    
     
-    - {role: storm, 
-       storm_hostname: "supervisor"}
+    - storm
 
     - supervisord
     - {role: supervisor-config, 
