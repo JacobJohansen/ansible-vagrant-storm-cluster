@@ -16,7 +16,7 @@
 # - name: Creates storm directory
   # file: path={{ansible_env.HOME}}/packages/apache-storm-{{storm_version}}  state=directory    
 
-- stat: path={{packages_root}}/apache-storm-1.0.1.zip
+- stat: path={{packages_root}}/apache-storm-{{storm_version}}.zip
   register: stormZip
 
 - name: get storm artifact
@@ -25,7 +25,7 @@
 
 - name: install storm 
   become: yes
-  shell: unzip {{packages_root}}/apache-storm-1.0.1.zip -d /usr/local/lib
+  shell: unzip {{packages_root}}/apache-storm-{{storm_version}}.zip -d /usr/local/lib
   #when: stormZip.stat.exists == False
 
 - name: create a link to the storm install dir

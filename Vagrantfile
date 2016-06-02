@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.define "zookeeper" do |zookeeper|
+    zookeeper.vm.hostname = "zookeeper"
     zookeeper.vm.box = "ubuntu/trusty64"
     zookeeper.vm.network :private_network, ip: "192.168.33.11"
     zookeeper.vm.provision "ansible" do |ansible|
@@ -34,6 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "nimbus" do |nimbus|
+    nimbus.vm.hostname = "nimbus"
     nimbus.vm.box = "ubuntu/trusty64"
     nimbus.vm.network :private_network, ip: "192.168.33.10"
     nimbus.vm.provision "ansible" do |ansible|
@@ -45,6 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "supervisor01" do |supervisor01|
+    supervisor01.vm.hostname = "supervisor01"
     supervisor01.vm.box = "ubuntu/trusty64"
     supervisor01.vm.network :private_network, ip: "192.168.33.12"
     supervisor01.vm.provision "ansible" do |ansible|
