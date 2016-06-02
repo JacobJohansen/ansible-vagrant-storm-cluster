@@ -10,7 +10,8 @@
     - { role: ansiblebit.oracle-java,
         oracle_java_set_as_default: yes}
     - common
-    - storm
+    - {role: storm, 
+       storm_hostname: "nimbus"}
     - supervisord
     - {role: supervisor-config, 
        supervisor_program: "stormUI",

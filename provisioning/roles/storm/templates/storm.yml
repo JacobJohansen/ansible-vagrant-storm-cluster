@@ -20,20 +20,12 @@
 ### storm.* configs are general configurations
 # the local dir is where jars are kept
 storm.local.dir: "/var/storm-local"
-storm.messaging.transport: "backtype.storm.messaging.netty.Context"
-storm.messaging.netty.server_worker_threads: 1
-storm.messaging.netty.client_worker_threads: 1
-storm.messaging.netty.buffer_size: 5242880
-storm.messaging.netty.max_retries: 100
-storm.messaging.netty.max_wait_ms: 1000
-storm.messaging.netty.min_wait_ms: 100
 storm.zookeeper.servers:
     - "{{zookeeper_name}}"
 storm.zookeeper.port: 2181
 
 ### nimbus.* configs are for the master
 nimbus.seeds : ["{{nimbus_name}}"]
-nimbus.thrift.threads: 256
 # For secure mode we would want to change this config to true
 storm.blobstore.acl.validation.enabled: false
 
@@ -45,5 +37,6 @@ supervisor.slots.ports:
     - 6702
     - 6703
 
-worker.childopts: "-Xmx2048m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:NewSize=128m -XX:CMSInitiatingOccupancyFraction=70 -XX:-CMSConcurrentMTEnabled -Djava.net.preferIPv4Stack=true"
+worker.childopts: "-Xmx1024m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:NewSize=128m -XX:CMSInitiatingOccupancyFraction=70 -XX:-CMSConcurrentMTEnabled -Djava.net.preferIPv4Stack=true"
 
+storm.local.hostname: "{{storm_hostname}}"
